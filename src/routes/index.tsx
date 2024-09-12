@@ -4,12 +4,10 @@ import { formAction$, useForm, valiForm$ } from "@modular-forms/qwik";
 import * as v from "valibot";
 import { FileInput } from "~/components/file-input";
 
-const isFile = (value: any): value is File => value instanceof File;
-const isFileArray = (value: any): value is File[] =>
-  Array.isArray(value) && value.every(isFile);
+const isBlob = (value: any): value is Blob => value instanceof Blob;
 
 const UploadFilesSchema = v.object({
-  files: v.optional(v.custom<NoSerialize<File>[]>(isFileArray)),
+  files: v.array(v.custom<NoSerialize<Blob>>(isBlob)),
 });
 
 type UploadFilesFields = v.InferInput<typeof UploadFilesSchema>;
